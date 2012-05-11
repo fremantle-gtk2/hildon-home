@@ -1,3 +1,11 @@
+hildon-home (0.3.71-9-thumb0) unstable; urgency=low
+
+  * Compiler flags for thumb compile.
+
+ -- Ivaylo Dimitrov <freemangordon@abv.bg>  Fri, 11 May 2012 05:15:48 +0300
+
+hildon-home (0.3.71-8) unstable; urgency=low
+
 hildon-home (0.3.71-9) unstable; urgency=low
 
   * Image sets support up to 9 desktops & portrait wallpapers.
