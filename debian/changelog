@@ -1,3 +1,9 @@
+hildon-home (0.3.71-9-thumb1) unstable; urgency=low
+
+  * Add kernel-feature-errata-430973-workaround dependency
+
+ -- Ivaylo Dimitrov <freemangordon@abv.bg>  Sun, 27 May 2012 11:50:33 +0300
+
 hildon-home (0.3.71-9-thumb0) unstable; urgency=low
 
   * Compiler flags for thumb compile.
