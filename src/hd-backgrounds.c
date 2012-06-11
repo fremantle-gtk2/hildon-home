@@ -52,7 +52,6 @@
 #define BACKGROUND_CACHED_PNG CACHED_DIR "/background-%u.png"
 #define BACKGROUND_CACHED_PNG_PORTRAIT CACHED_DIR "/background_portrait-%u.png"
 
-#define GCONF_KEY_EDIT_MODE_PORTRAIT "/apps/osso/hildon-desktop/edit_mode_portrait"
 #define GCONF_KEY_PORTRAIT_WALLPAPER "/apps/osso/hildon-desktop/portrait_wallpaper"
 
 /* Background GConf key */
@@ -368,7 +367,7 @@ background_info_loaded (HDBackgroundInfo *info,
                                        GCONF_CURRENT_DESKTOP_KEY,
                                        &error) - 1;
 
-  if (hd_backgrounds_is_portrait (hd_backgrounds_get ()) && current_view < HD_DESKTOP_VIEWS)
+  if (hd_backgrounds_is_portrait_wallpaper_enabled (hd_backgrounds_get ()) && current_view < HD_DESKTOP_VIEWS)
     current_view += HD_DESKTOP_VIEWS;
 
   if (error)
@@ -444,7 +443,6 @@ get_current_theme (void)
   return current_theme;
 }
 
-/* Only supports themes with four backgrounds set */
 static void
 update_backgrounds_from_theme (HDBackgrounds *backgrounds,
                                const gchar   *backgrounds_desktop)
@@ -561,7 +559,7 @@ update_backgrounds_from_theme (HDBackgrounds *backgrounds,
                                        GCONF_CURRENT_DESKTOP_KEY,
                                        &error);
 
-  if (hd_backgrounds_is_portrait (hd_backgrounds_get ()) && (current_view - 1) < HD_DESKTOP_VIEWS)
+  if (hd_backgrounds_is_portrait_wallpaper_enabled (hd_backgrounds_get ()) && (current_view - 1) < HD_DESKTOP_VIEWS)
     current_view += HD_DESKTOP_VIEWS;
 
   if (error)
@@ -947,7 +945,7 @@ hd_backgrounds_get_background (HDBackgrounds *backgrounds,
   HDBackgroundsPrivate *priv;
   guint max = HD_DESKTOP_VIEWS;
 
-  if(hd_backgrounds_is_portrait (hd_backgrounds_get ()))
+  if(hd_backgrounds_is_portrait_wallpaper_enabled (hd_backgrounds_get ()))
     max += HD_DESKTOP_VIEWS;
 
   g_return_val_if_fail (HD_IS_BACKGROUNDS (backgrounds), NULL);
@@ -1195,7 +1193,7 @@ hd_backgrounds_set_current_background (HDBackgrounds *backgrounds,
                                        GCONF_CURRENT_DESKTOP_KEY,
                                        &error) - 1;
 
-  if (hd_backgrounds_is_portrait (hd_backgrounds_get ()) && current_view < HD_DESKTOP_VIEWS)
+  if (hd_backgrounds_is_portrait_wallpaper_enabled (hd_backgrounds_get ()) && current_view < HD_DESKTOP_VIEWS)
     current_view += HD_DESKTOP_VIEWS;
 
   if (error)
@@ -1222,15 +1220,6 @@ hd_backgrounds_set_current_background (HDBackgrounds *backgrounds,
                             TRUE);
 
   g_object_unref (image_file);
-}
-
-gboolean
-hd_backgrounds_is_portrait (HDBackgrounds *backgrounds)
-{
-  HDBackgroundsPrivate *priv = backgrounds->priv;
-  return gconf_client_get_bool (priv->gconf_client, 
-                                GCONF_KEY_EDIT_MODE_PORTRAIT, NULL)
-                               && hd_backgrounds_is_portrait_wallpaper_enabled (hd_backgrounds_get ());
 }
 
 gboolean
