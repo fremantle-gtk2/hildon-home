@@ -1,3 +1,9 @@
+hildon-home (0.3.71-10-thumb0) unstable; urgency=low
+
+  * Merged master
+
+ -- Ivaylo Dimitrov <freemangordon@abv.bg>  Mon, 11 Jun 2012 07:13:11 +0300
+
 hildon-home (0.3.71-10) unstable; urgency=low
 
   * Remove depracted GConf key.
