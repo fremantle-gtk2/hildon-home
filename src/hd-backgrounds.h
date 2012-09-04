@@ -92,7 +92,6 @@ gboolean       hd_backgrounds_save_cached_image (HDBackgrounds  *backgrounds,
                                                  GError        **error);
 void hd_backgrounds_report_corrupt_image        (const GError   *error);
 
-gboolean hd_backgrounds_is_portrait (HDBackgrounds *backgrounds);
 gboolean hd_backgrounds_is_portrait_wallpaper_enabled (HDBackgrounds *backgrounds);
 
 G_END_DECLS

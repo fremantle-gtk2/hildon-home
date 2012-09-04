@@ -262,6 +262,9 @@ hd_change_background_dialog_response (GtkDialog *dialog,
                                                                   "modal", FALSE,
                                                                   NULL);
 
+      if (hd_change_background_dialog_is_portrait ())
+        gtk_widget_set_size_request (GTK_WIDGET (add_image), -1, 654);
+
       /* Filter for shown mime-types: JPG, GIF, PNG, BMP, TIFF, sketch.png */
       filter = gtk_file_filter_new ();
       gtk_file_filter_add_mime_type (filter, "image/jpeg");
@@ -322,19 +325,20 @@ hd_change_background_dialog_response (GtkDialog *dialog,
                                                     TRUE);
           gtk_widget_set_sensitive (GTK_WIDGET (dialog), FALSE);
 
-        if(hd_backgrounds_is_portrait (hd_backgrounds_get ()))
-          hd_background_set_for_current_view (background,
-                                              priv->current_view + HD_DESKTOP_VIEWS,
-                                              priv->cancellable);
-        else
-          hd_background_set_for_current_view (background,
-                                              priv->current_view,
-                                              priv->cancellable);
+          if (hd_change_background_dialog_is_portrait () 
+                && hd_backgrounds_is_portrait_wallpaper_enabled (hd_backgrounds_get ()))
+            hd_background_set_for_current_view (background,
+                                                priv->current_view + HD_DESKTOP_VIEWS,
+                                                priv->cancellable);
+          else
+            hd_background_set_for_current_view (background,
+                                                priv->current_view,
+                                                priv->cancellable);
 
-          hd_backgrounds_add_done_cb (hd_backgrounds_get (),
-                                      background_set_cb,
-                                      dialog,
-                                      NULL);
+            hd_backgrounds_add_done_cb (hd_backgrounds_get (),
+                                        background_set_cb,
+                                        dialog,
+                                        NULL);
         }
       else
         {
@@ -430,7 +434,10 @@ hd_change_background_dialog_init (HDChangeBackgroundDialog *dialog)
   gtk_widget_show (priv->selector);
   gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), priv->selector);
 
-  gtk_widget_set_size_request (GTK_WIDGET (dialog), -1, 358);
+  if (hd_change_background_dialog_is_portrait ())
+    gtk_widget_set_size_request (GTK_WIDGET (dialog), -1, 678);
+  else
+    gtk_widget_set_size_request (GTK_WIDGET (dialog), -1, 358);
 }
 
 GtkWidget *
@@ -443,5 +450,18 @@ hd_change_background_dialog_new (guint current_view)
                          NULL);
 
   return window;
+}
+
+gboolean
+hd_change_background_dialog_is_portrait ()
+{
+  GdkScreen *screen = gdk_screen_get_default ();
+  int width = gdk_screen_get_width (screen);
+  int height = gdk_screen_get_height (screen);
+
+  if (height > width)
+    return TRUE;
+  else
+    return FALSE;
 }
 
