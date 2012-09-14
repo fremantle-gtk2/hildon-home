@@ -56,7 +56,7 @@ else
     CFLAGS="$CFLAGS -Wall -Wmissing-prototypes -Wmissing-declarations -Werror -Wno-format-extra-args -DG_DISABLE_CAST_CHECKS"
 fi
 
-CFLAGS="$CFLAGS -mthumb -Wno-error=unused-but-set-variable"
+CFLAGS="$CFLAGS -mthumb -Wno-error=unused-but-set-variable -mword-relocations -pie"
 
 AC_SUBST(CFLAGS)
 
